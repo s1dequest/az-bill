@@ -1,0 +1,33 @@
+[
+  {
+    "service": "compute",
+    "pretaxCost": "1.026175",
+    "tags": {
+      "AppID": "mst",
+      "CostCenter": "mst",
+      "Department": "3",
+      "PSO": "mst",
+      "Project": "mst"
+    },
+    "type": "Microsoft.Consumption/usageDetails",
+    "usageEnd": "2020-05-20T23:59:59Z",
+    "usageQuantity": "12",
+    "usageStart": "2020-05-20T00:00:00Z"
+  },
+  {
+    "service": "storage",
+    "pretaxCost": "1.8809993",
+    "tags": {
+      "AppID": "mst",
+      "CostCenter": "mst",
+      "Department": "3",
+      "PSO": "mst",
+      "Project": "mst"
+    },
+    "type": "Microsoft.Consumption/usageDetails",
+    "usageEnd": "2020-05-20T23:59:59Z",
+    "usageQuantity": "9",
+    "usageStart": "2020-05-20T00:00:00Z"
+  }
+]
+
