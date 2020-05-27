@@ -4,10 +4,9 @@ echo "************************************************************"
 echo "*                       HELLO                              *"
 echo "*                                                          *"
 echo "*    This script is designed to output valuable billing    *"
-echo "*    data for the given user input Azure resource tags.    *"
-echo "*    You will have the option to output raw json to a      *"
-echo "*    file in your current directory, or a table with       *"
-echo "*    a few key metrics for billing in 4Wheels.             *"
+echo "*    data for the given Azure resource tags. Note that     *"
+echo "*    values are output in USD ($) and summed over all      *"
+echo "*    resources for the matching cluster(s).                *"
 echo "*                                                          *"
 echo "*                       ^  ^                               *"
 echo "*                      _|__|_                              *"
@@ -28,6 +27,10 @@ if [ "$datebool" == "y" ];
     echo " - What date range would you like to see?"
     read -p "   - From [yyyy-mm-dd]: " from
     read -p "   - To [yyyy-mm-dd]: " to
+    echo "** Please note: This query may take a few minutes. **"
     az consumption usage list --start-date "${from}" --end-date "${to}" --query "[?tags.[AppID=='${appid}',CostCenter=='${cc}',PSO=='${pso}']].{Service:consumedService,Usage:usageQuantity,BillableDollars:pretaxCost}" -o table
-    # az consumption usage list --query "[?tags.[AppID=='${appid}',CostCenter=='${cc}',PSO=='${pso}']].{Service:consumedService,Usage:usageQuantity,BillableDollars:pretaxCost}" -o table
+  else
+    echo " - Ok. Outputting total billing amount for all-time..."
+    echo "** Please note: This query may take a few minutes. **"
+    az consumption usage list --query "[?tags.[AppID=='${appid}',CostCenter=='${cc}',PSO=='${pso}']].{Service:consumedService,Usage:usageQuantity,BillableDollars:pretaxCost}" -o table
 fi
