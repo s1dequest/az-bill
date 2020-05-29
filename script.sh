@@ -32,14 +32,14 @@ if [ "$datebool" == "y" ];
     read -p "   - From [yyyy-mm-dd]: " from
     read -p "   - To [yyyy-mm-dd]: " to
     echo "** Please note: This query may take a few minutes. **"
-    az consumption usage list --start-date "${from}" --end-date "${to}" --query "[?tags.[AppID=='${appid}',CostCenter=='${cc}',PSO=='${pso}']].{Tags:tags,Usage:usageQuantity,BillableDollars:pretaxCost}" -o json > raw-data.json
+    az consumption usage list --start-date "${from}" --end-date "${to}" --query "[?tags.AppID=='${appid}'] | [?tags.CostCenter=='${cc}'] | [?tags.PSO=='${pso}'].{Tags:tags,Usage:usageQuantity,BillableDollars:pretaxCost}" -o json > raw-data.json
     total=$(cat raw-data.json | jq -r '.[].BillableDollars' | awk '{ sum += $1; } END { print sum; }' "$@")
     echo "Between $from and $to, the total, pretax, billable US Dollars for $appid is: \$$total"
     echo "Thank you for using Bill-O-Tron-9000."
   else
     echo " - Ok. Outputting total billing amount for all-time..."
     echo "** Please note: This query may take a few minutes. **"
-    az consumption usage list --query "[?tags.[AppID=='${appid}',CostCenter=='${cc}',PSO=='${pso}']].{Tags:tags,Usage:usageQuantity,BillableDollars:pretaxCost}" -o json > raw-data.json
+    az consumption usage list --query "[?tags.AppID=='${appid}'] | [?tags.CostCenter=='${cc}'] | [?tags.PSO=='${pso}'].{Tags:tags,Usage:usageQuantity,BillableDollars:pretaxCost}" -o json > raw-data.json
     total=$(cat raw-data.json | jq -r '.[].BillableDollars' | awk '{ sum += $1; } END { print sum; }' "$@")
     echo "The total, pretax, billable US Dollars for $appid is: \$$total"
     echo "Thank you for using Bill-O-Tron-9000."
